@@ -16,10 +16,10 @@ class Server {
 
   async start() {
     this.app.use(cors({
-      origin: 'https://imaginative-salmiakki-58265a.netlify.app/',
+      origin: 'https://celebrated-trifle-75e3cb.netlify.app/',
       credentials: true
     }));
-    
+
     this.app.use(express.json())
     this.app.use(express.urlencoded({ extended: true }))
     this.app.use(express.static('public'))
