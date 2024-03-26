@@ -26,7 +26,7 @@ class Server {
 
     })
 
-    this.app.use('/api/alimentos', new RouterAlimentos(this.persistencia).start())
+    this.app.use('/api/alimentos', new RouterAlimentos(process.env.MODO_PERSISTENCIA).start())
    
 
     if (this.persistencia == 'MONGODB') {
