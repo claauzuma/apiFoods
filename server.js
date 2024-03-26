@@ -21,11 +21,7 @@ class Server {
     this.app.use(express.static('public'))
 
     
-    this.app.use('/', (req,res) => {
-      res.json("Holaa")
-
-    })
-
+   
     this.app.use('/api/alimentos', new RouterAlimentos(process.env.MODO_PERSISTENCIA).start())
    
 
