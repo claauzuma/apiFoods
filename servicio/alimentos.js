@@ -189,7 +189,7 @@ class Servicio {
 
                     let cantidadMacroAlimActual = arrayPorcentajes[j]
                     let cantidadAlimento = Math.round(cantidadMacroAlimActual / alimentoActual.Proteinas);
-                    let objetoMacroProte = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4 }
+                    let objetoMacroProte = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4, "Unidad" : alimentoActual.Unidad }
                     totalPr += alimentoActual.Proteinas * cantidadAlimento;
                     totalGr += alimentoActual.Grasas * cantidadAlimento;
                     totalCh += alimentoActual.Carbohidratos * cantidadAlimento;
@@ -217,7 +217,7 @@ class Servicio {
 
                     let cantidadACalcular = arrayPorcentajes[j]
                     let cantidadAlimento = Math.round(cantidadACalcular / alimentoActual.Carbohidratos);
-                    let objetoMacroCarbo = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4 }
+                    let objetoMacroCarbo = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4, "Unidad" : alimentoActual.Unidad }
                     totalPr += alimentoActual.Proteinas * cantidadAlimento;
                     totalGr += alimentoActual.Grasas * cantidadAlimento;
                     totalCh += alimentoActual.Carbohidratos * cantidadAlimento;
@@ -240,7 +240,7 @@ class Servicio {
 
                     let cantidadACalcular = arrayPorcentajes[j]
                     let cantidadAlimento = Math.round(cantidadACalcular / alimentoActual.Grasas);
-                    let objetoMacroGrasas = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4 }
+                    let objetoMacroGrasas = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4,  "Unidad" : alimentoActual.Unidad }
                     totalPr += alimentoActual.Proteinas * cantidadAlimento;
                     totalGr += alimentoActual.Grasas * cantidadAlimento;
                     totalCh += alimentoActual.Carbohidratos * cantidadAlimento;
@@ -301,9 +301,17 @@ class Servicio {
             if (diferenciaProteica > 3) {
                 actualizarCantidadMacro()
 
-            }
+            } 
 
+            //Ahora debo fijarme cual es el excedente de calorías y equiparar
+            //Tambien debo saber cuantas calorías faltan y de que son.
+
+
+
+
+           //Por ultimo actualizamos array
             actualizarArrayFinal();
+
         }
 
 
