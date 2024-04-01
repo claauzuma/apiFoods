@@ -16,7 +16,7 @@ class Server {
 
   async start() {
     this.app.use(cors({
-    origin: 'https://celebrated-trifle-75e3cb.netlify.app/',
+    origin: 'https://celebrated-trifle-75e3cb.netlify.app',
       
       credentials: true
     }));
