@@ -284,33 +284,96 @@ class Servicio {
 
 
 
+        console.log("Las calorias son : " + calorias)
+        console.log("El total de calorias antes de todo es de : " +totalCals)
 
+        let diferenciaCalorica = totalCals - calorias
 
-        const diferenciaCalorica = totalCals - calorias
-
-        const diferenciaProteica = totalPr - proteinas
+        let diferenciaProteica = totalPr - proteinas
 
         console.log("A ver")
         console.log(diferenciaCalorica)
         console.log(diferenciaProteica)
-
-
         console.log("La diferencia calorica es de " + diferenciaCalorica)
 
+        
+
         if (diferenciaCalorica >= diferenciaLimite) {
-            if (diferenciaProteica > 3) {
+            console.log("Entra por el if")
+            if (diferenciaProteica >= 2 ) {
                 actualizarCantidadMacro()
+            }
 
-            } 
+            diferenciaProteica = proteinas - arrayFinal[3][0].Proteinas;
+            if (diferenciaProteica < -2 ) {
 
-            //Ahora debo fijarme cual es el excedente de calorías y equiparar
-            //Tambien debo saber cuantas calorías faltan y de que son.
+            }
 
-
-
-
-           //Por ultimo actualizamos array
             actualizarArrayFinal();
+            
+           
+            let objetoAlimProteicos = arrayFinal[idxProteinas]
+            let objetoAlimCarbos = arrayFinal[idxCarbohidratos]
+            let objetoAlimGrasas = arrayFinal[idxGrasas]
+            let objetoCantidades = arrayFinal[3][0]
+            let proteYGrasas = objetoAlimProteicos.length > 0 && objetoAlimGrasas.length > 0 && objetoAlimCarbos.length == 0;
+            let carboYGrasas = objetoAlimProteicos.length == 0 && objetoAlimGrasas.length > 0 && objetoAlimCarbos.length > 0;
+            let proteYCarbos = objetoAlimProteicos.length > 0 && objetoAlimGrasas.length == 0 && objetoAlimCarbos.length > 0;
+            let caloriasRestantes = calorias - objetoCantidades.Calorias;
+            let faltanCalorias = caloriasRestantes >= 10
+
+            ////Falta hacer metodo de traerArrayPorcentajes
+
+
+            if(proteYGrasas && faltanCalorias) {
+                sumarEnMacros(caloriasRestantes,idxGrasas);
+
+            }
+
+            if(carboYGrasas && faltanCalorias) {
+                let caloriasDistri = caloriasRestantes /2
+                sumarEnMacros(caloriasDistri,idxCarbohidratos);
+                sumarEnMacros(caloriasDistri,idxGrasas);
+
+            }
+
+            if(proteYCarbos && faltanCalorias) {
+                sumarEnMacros(caloriasRestantes,idxCarbohidratos);
+
+            }
+
+            ////Falta hacer metodo de traerArrayPorcentajes y probar si anda bien lo de arriba
+            ///Debo fijarme si solo ponen grasas, proteinas o carbohidratos, tambien.
+            ///Fijarme si puedo dejar en 0 si tengo algun alimento con 0 gramos.
+            ///Ahora debo fijarme si las calorías estan bien todavía, si no , seguir modificando hasta que quede todo ok.
+            ///Tambien debo fijarme si tengo mas de algun macronutriente que otro, y modificar si hace falta.
+
+          
+        
+
+
+            ////
+
+        }
+
+        function sumarEnMacros(caloriasRestantes, idxMacro) {
+            let i = 0;
+            let cantidadDeAlimentos = arrayFinal[idxMacro].length
+            let arrayDePorcentajes = damePorcentajesCaloricos(caloriasRestantes, cantidadDeAlimentos)
+            while (i < cantidadDeAlimentos) {
+                const alimentoPorUnidad = listaAlimentosPorMacros[idxMacro][i];
+                let caloriasPorUnidad = alimentoPorUnidad.Calorias;
+                let cantidadASumar = arrayDePorcentajes[i] / caloriasPorUnidad;
+
+
+                arrayFinal[idxMacro][i].Cantidad + cantidadASumar;
+                arrayFinal[idxMacro][i].Proteinas = arrayFinal[idxMacro][i].Cantidad * alimentoPorUnidad.Proteinas;
+                arrayFinal[idxMacro][i].Carbohidratos = arrayFinal[idxMacro][i].Cantidad * alimentoPorUnidad.Carbohidratos;
+                arrayFinal[idxMacro][i].Grasas = arrayFinal[idxMacro][i].Cantidad * alimentoPorUnidad.Grasas;
+
+            i++;
+
+            }
 
         }
 
