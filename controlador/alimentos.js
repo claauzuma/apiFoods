@@ -40,15 +40,23 @@ class ControladorAlimentos {
     }
 
     obtenerCombinacion2 = async (req, res) => {
-        console.log("Hasta aca todo ok")
-        const primerAlim = req.params.alimento1;
-        const segundoAlim = req.params.alimento2;
-        const caloriasObjetivo = parseInt(req.params.calorias);
-        console.log(primerAlim)
-        console.log(segundoAlim)
-        console.log(caloriasObjetivo)
-        const cantidadesAlimentos = await this.servicio.obtenerCombinacion2(primerAlim, segundoAlim, caloriasObjetivo);
-        res.json(cantidadesAlimentos)
+        try {
+            console.log("Hasta aca todo ok")
+            const primerAlim = req.params.alimento1;
+            const segundoAlim = req.params.alimento2;
+            const caloriasObjetivo = parseInt(req.params.calorias);
+            console.log(primerAlim)
+            console.log(segundoAlim)
+            console.log(caloriasObjetivo)
+            const cantidadesAlimentos = await this.servicio.obtenerCombinacion2(primerAlim, segundoAlim, caloriasObjetivo);
+            res.json(cantidadesAlimentos)
+
+        }
+        catch (error) {
+            res.json("Se produjo un error " +error);
+        }
+
+
     }
 
     obtenerDistribuciones = async (req, res) => {

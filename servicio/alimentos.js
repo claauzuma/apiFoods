@@ -171,7 +171,7 @@ class Servicio {
 
 
                 if (alimentoActual.Fuente == "Proteinas") {
-  
+
 
                     if (j == 0) {
                         arrayPorcentajes = traerArrayPorcentajes(proteinas, cantidadAlimentosPorMacro)
@@ -181,11 +181,11 @@ class Servicio {
 
                     let cantidadMacroAlimActual = arrayPorcentajes[j]
                     let cantidadAlimento = Math.round(cantidadMacroAlimActual / alimentoActual.Proteinas);
-                    let objetoMacroProte = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4, "Unidad" : alimentoActual.Unidad }
+                    let objetoMacroProte = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4, "Unidad": alimentoActual.Unidad }
                     totalPr += alimentoActual.Proteinas * cantidadAlimento;
                     totalGr += alimentoActual.Grasas * cantidadAlimento;
                     totalCh += alimentoActual.Carbohidratos * cantidadAlimento;
-                
+
                     //Actualizamos los carbohidratos y grasas restantes deacuerdo a las proteinas usasdas
                     carbohidratosRestantes = carbohidratosRestantes - (cantidadAlimento * alimentoActual.Carbohidratos)
                     grasasRestantes = grasasRestantes - (cantidadAlimento * alimentoActual.Grasas)
@@ -198,10 +198,10 @@ class Servicio {
 
                 }
                 else if (alimentoActual.Fuente == "Carbohidratos" && carbohidratosRestantes > 0) {
-           
+
 
                     if (j == 0) {
-            
+
                         arrayPorcentajes = traerArrayPorcentajes(carbohidratosRestantes, cantidadAlimentosPorMacro)
 
                     }
@@ -209,11 +209,11 @@ class Servicio {
 
                     let cantidadACalcular = arrayPorcentajes[j]
                     let cantidadAlimento = Math.round(cantidadACalcular / alimentoActual.Carbohidratos);
-                    let objetoMacroCarbo = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4, "Unidad" : alimentoActual.Unidad }
+                    let objetoMacroCarbo = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4, "Unidad": alimentoActual.Unidad }
                     totalPr += alimentoActual.Proteinas * cantidadAlimento;
                     totalGr += alimentoActual.Grasas * cantidadAlimento;
                     totalCh += alimentoActual.Carbohidratos * cantidadAlimento;
-              
+
 
                     grasasRestantes = grasasRestantes - (cantidadAlimento * alimentoActual.Grasas)
 
@@ -223,20 +223,20 @@ class Servicio {
                 }
 
                 else if (alimentoActual.Fuente == "Grasas" && grasasRestantes > 0) {
-    
+
                     if (j == 0) {
-                 
+
                         arrayPorcentajes = traerArrayPorcentajes(grasasRestantes, cantidadAlimentosPorMacro)
 
                     }
 
                     let cantidadACalcular = arrayPorcentajes[j]
                     let cantidadAlimento = Math.round(cantidadACalcular / alimentoActual.Grasas);
-                    let objetoMacroGrasas = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4,  "Unidad" : alimentoActual.Unidad }
+                    let objetoMacroGrasas = { "Nombre": alimentoActual.Alimentos, "Cantidad": cantidadAlimento, "Carbohidratos": alimentoActual.Carbohidratos * cantidadAlimento, "Proteinas": alimentoActual.Proteinas * cantidadAlimento, "Grasas": alimentoActual.Grasas * cantidadAlimento, "Calorias": (alimentoActual.Proteinas * cantidadAlimento) * 4 + (alimentoActual.Grasas * cantidadAlimento) * 9 + (alimentoActual.Carbohidratos * cantidadAlimento) * 4, "Unidad": alimentoActual.Unidad }
                     totalPr += alimentoActual.Proteinas * cantidadAlimento;
                     totalGr += alimentoActual.Grasas * cantidadAlimento;
                     totalCh += alimentoActual.Carbohidratos * cantidadAlimento;
-                  
+
                     arrayFinal[i].push(objetoMacroGrasas)
                 }
 
@@ -260,10 +260,10 @@ class Servicio {
 
         while (ix < arrayFinal.length) {
             let jx = 0;
-   
+
 
             while (jx < arrayFinal[ix].length) {
-     
+
                 console.log(arrayFinal[ix][jx].Nombre)
                 console.log(arrayFinal[ix][jx].Cantidad)
                 jx++;
@@ -279,48 +279,48 @@ class Servicio {
 
         let diferenciaProteica = totalPr - proteinas
 
-      
 
-      
- 
+
+
+
         console.log("ANTES DE PASAR POR EL IF")
         console.log("Calorias pasadas por parametro" + calorias)
         console.log("Calorias totales de alimentos" + totalCals)
 
         console.log("diferencia calorias" + diferenciaCalorica)
         console.log(diferenciaCalorica >= diferenciaLimite)
-       
 
-        if (diferenciaCalorica  >= diferenciaLimite) {
+
+        if (diferenciaCalorica >= diferenciaLimite) {
             console.log("Pasa por aca SIIIIIIIII")
-            if (diferenciaProteica >= 2 ) {
+            if (diferenciaProteica >= 2) {
                 console.log("Actualizamos cantidad macro")
                 actualizarCantidadMacro()
             }
 
             diferenciaProteica = proteinas - arrayFinal[3][0].Proteinas;
-            if (diferenciaProteica < -2 ) {
+            if (diferenciaProteica < -2) {
 
             }
 
             actualizarArrayFinal();
 
             console.log("Ahora hay que equilibrar las calorías")
-            
-           
-           
+
+
+
         }
 
 
-        if(diferenciaCalorica *-1  >= diferenciaLimite) {
-      
-            if (diferenciaProteica >= 2 ) {
+        if (diferenciaCalorica * -1 >= diferenciaLimite) {
+
+            if (diferenciaProteica >= 2) {
                 console.log("Actualizamos cantidad macro")
                 actualizarCantidadMacro()
             }
 
             diferenciaProteica = proteinas - arrayFinal[3][0].Proteinas;
-            if (diferenciaProteica < -2 ) {
+            if (diferenciaProteica < -2) {
 
             }
 
@@ -329,15 +329,15 @@ class Servicio {
 
             actualizarArrayFinal();
             console.log("Array actualizado")
-            console.log("Proteinas " +arrayFinal[3][0].Proteinas )
-            console.log("Carbo " +arrayFinal[3][0].Carbohidratos)
-            console.log("Grasas " +arrayFinal[3][0].Grasas)
+            console.log("Proteinas " + arrayFinal[3][0].Proteinas)
+            console.log("Carbo " + arrayFinal[3][0].Carbohidratos)
+            console.log("Grasas " + arrayFinal[3][0].Grasas)
 
             console.log("AHORA PAASA POR ACA GENIO")
-            console.log("Proteinas " +arrayFinal[idxProteinas].length )
-            console.log("Carbo " +arrayFinal[idxCarbohidratos].length )
-            console.log("Grasas " +arrayFinal[idxGrasas].length )
-            
+            console.log("Proteinas " + arrayFinal[idxProteinas].length)
+            console.log("Carbo " + arrayFinal[idxCarbohidratos].length)
+            console.log("Grasas " + arrayFinal[idxGrasas].length)
+
 
             let objetoAlimProteicos = arrayFinal[idxProteinas]
             let objetoAlimCarbos = arrayFinal[idxCarbohidratos]
@@ -346,15 +346,15 @@ class Servicio {
             let proteYGrasas = objetoAlimProteicos.length > 0 && objetoAlimGrasas.length > 0 && objetoAlimCarbos.length == 0;
             let carboYGrasas = objetoAlimProteicos.length == 0 && objetoAlimGrasas.length > 0 && objetoAlimCarbos.length > 0;
             let proteYCarbos = objetoAlimProteicos.length > 0 && objetoAlimGrasas.length == 0 && objetoAlimCarbos.length > 0;
-            let soloCarbos = objetoAlimProteicos.length == 0 && objetoAlimGrasas.length == 0 && objetoAlimCarbos.length > 0; ;
-            let soloGrasas= objetoAlimProteicos.length == 0 && objetoAlimGrasas.length > 0 && objetoAlimCarbos.length == 0;;
-            let soloProteinas= objetoAlimProteicos.length > 0 && objetoAlimGrasas.length == 0 && objetoAlimCarbos.length == 0; ;
+            let soloCarbos = objetoAlimProteicos.length == 0 && objetoAlimGrasas.length == 0 && objetoAlimCarbos.length > 0;;
+            let soloGrasas = objetoAlimProteicos.length == 0 && objetoAlimGrasas.length > 0 && objetoAlimCarbos.length == 0;;
+            let soloProteinas = objetoAlimProteicos.length > 0 && objetoAlimGrasas.length == 0 && objetoAlimCarbos.length == 0;;
             let caloriasRestantes = calorias - objetoCantidades.Calorias;
             console.log("Calorias pasadas por parametro " + calorias)
 
-            console.log("Calorias totales de alimentos  " +objetoCantidades.Calorias)
+            console.log("Calorias totales de alimentos  " + objetoCantidades.Calorias)
             let faltanCalorias = caloriasRestantes >= 10
-          
+
 
             ////Falta hacer metodo de traerArrayPorcentajes
 
@@ -367,47 +367,47 @@ class Servicio {
             console.log(faltanCalorias)
 
 
-            if(proteYGrasas && faltanCalorias ) {
+            if (proteYGrasas && faltanCalorias) {
                 console.log("Prote y grasas")
                 console.log(caloriasRestantes)
-                sumarEnMacros(caloriasRestantes,idxGrasas);
+                sumarEnMacros(caloriasRestantes, idxGrasas);
 
             }
 
-            if(carboYGrasas && faltanCalorias ) {
+            if (carboYGrasas && faltanCalorias) {
                 console.log("carbo y grasas")
                 console.log(caloriasRestantes)
-                let caloriasDistri = caloriasRestantes /2
-                sumarEnMacros(caloriasDistri,idxCarbohidratos);
-                sumarEnMacros(caloriasDistri,idxGrasas);
+                let caloriasDistri = caloriasRestantes / 2
+                sumarEnMacros(caloriasDistri, idxCarbohidratos);
+                sumarEnMacros(caloriasDistri, idxGrasas);
 
             }
 
-            if(proteYCarbos && faltanCalorias ) {
+            if (proteYCarbos && faltanCalorias) {
                 console.log("Prote y carbos")
                 console.log(caloriasRestantes)
-                sumarEnMacros(caloriasRestantes,idxCarbohidratos);
+                sumarEnMacros(caloriasRestantes, idxCarbohidratos);
 
             }
 
-            
-            if(soloProteinas && faltanCalorias) {
+
+            if (soloProteinas && faltanCalorias) {
                 console.log("Prote")
-                sumarEnMacros(caloriasRestantes,idxProteinas);
+                sumarEnMacros(caloriasRestantes, idxProteinas);
 
             }
 
-            if(soloGrasas && faltanCalorias) {
+            if (soloGrasas && faltanCalorias) {
                 console.log("Grasas")
                 console.log(caloriasRestantes)
-                sumarEnMacros(caloriasRestantes,idxGrasas);
+                sumarEnMacros(caloriasRestantes, idxGrasas);
 
 
             }
 
-            if(soloCarbos && faltanCalorias) {
+            if (soloCarbos && faltanCalorias) {
                 console.log("Carbos")
-                sumarEnMacros(caloriasRestantes,idxCarbohidratos);
+                sumarEnMacros(caloriasRestantes, idxCarbohidratos);
 
 
             }
@@ -415,17 +415,17 @@ class Servicio {
             actualizarArrayFinal();
             console.log("Ahora hay que equilibrar todo de vuelta")
 
-            if(proteYCarbos && arrayFinal[3][0].Proteinas + 5 > proteinas) {
+            if (proteYCarbos && arrayFinal[3][0].Proteinas + 5 > proteinas) {
                 console.log("Prote y carbos")
-                acomodarMacros(idxProteinas,idxCarbohidratos)
+                acomodarMacros(idxProteinas, idxCarbohidratos)
             }
 
-            if(proteYGrasas && arrayFinal[3][0].Proteinas + 5 > proteinas) {
+            if (proteYGrasas && arrayFinal[3][0].Proteinas + 5 > proteinas) {
                 console.log("Prote y grasas modifiquemosss")
-                acomodarMacros(idxProteinas,idxGrasas)
+                acomodarMacros(idxProteinas, idxGrasas)
             }
 
-            if(carboYGrasas) {
+            if (carboYGrasas) {
                 console.log("Esta pasando por aca che")
             }
 
@@ -442,11 +442,49 @@ class Servicio {
         }
 
 
+        function compararEnArray(arrayFinal) {
+            console.log("Empezamos a comparar en array")
+            let i = 0;
+
+            while (i < arrayObjetosAlimentos.length) {
+                let idx = 0;
+
+                let alimentoActual = arrayObjetosAlimentos[i];
+                if(alimentoActual.Fuente == "Carbohidratos") {
+                    idx = 1;
+                }
+                if(alimentoActual.Fuente == "Grasas") {
+                    idx = 2;
+                }
+
+               let alimentoExistente = arrayFinal[idx].find(alimento => alimento.Nombre == alimentoActual.Alimentos)
+               if(alimentoExistente === undefined) {
+                console.log("undefined")
+                console.log(alimentoActual.Alimentos)
+                arrayFinal[idx].push(
+                    {
+                        "Nombre": alimentoActual.Alimentos,
+                        "Cantidad":0,
+                        "Carbohidratos": 0,
+                        "Proteinas": 0,
+                        "Grasas": 0,
+                        "Calorias": 0,
+                        "Unidad": alimentoActual.Fuente
+
+                    }
+                )
+                
+               }
+
+             
+             i++;
+
+            }
+        }
 
 
 
-
-        function acomodarMacros(idxProteinas,idxOtroMacro) {
+        function acomodarMacros(idxProteinas, idxOtroMacro) {
             let proteinasActuales = arrayFinal[3][0].Proteinas;
             let proteinasRest = proteinasActuales - proteinas;
             console.log(proteinasRest)
@@ -454,7 +492,7 @@ class Servicio {
             console.log(caloriasRest)
             restarProteico(caloriasRest);
             console.log("Despues de restar las proteinas, queda asi" + arrayFinal[3][0].Calorias)
-            sumarOtroMacro(idxOtroMacro,caloriasRest)
+            sumarOtroMacro(idxOtroMacro, caloriasRest)
             actualizarArrayFinal();
 
 
@@ -472,17 +510,17 @@ class Servicio {
             arrayFinal[idxProteinas][idxProteMenosPura].Grasas = arrayFinal[idxProteinas][idxProteMenosPura].Cantidad * listaAlimentosPorMacros[idxProteinas][idxProteMenosPura].Grasas;
             console.log("AHora actualizamos el array final")
             actualizarArrayFinal();
-          
-        
-            
+
+
+
         }
 
         function sumarOtroMacro(idxOtroMacro, caloriasRest) {
             let cantidadAlim = arrayFinal[idxOtroMacro].length;
-            console.log("Las calorias restantes para sumar en ch son " +caloriasRest)
+            console.log("Las calorias restantes para sumar en ch son " + caloriasRest)
             console.log(idxOtroMacro)
-            let caloriasASumarPorAlimento = caloriasRest/cantidadAlim;
-        
+            let caloriasASumarPorAlimento = caloriasRest / cantidadAlim;
+
             let i = 0;
             while (i < cantidadAlim) {
                 console.log("Alimento a sumar " + arrayFinal[idxOtroMacro][i].Nombre)
@@ -491,7 +529,7 @@ class Servicio {
                 let cantidadAlimASumar = caloriasASumarPorAlimento / caloriasDeAlimentoPorUnidad; //Esto esta bien
                 console.log("CantidadAlimASumar " + cantidadAlimASumar)
                 arrayFinal[idxOtroMacro][i].Cantidad = arrayFinal[idxOtroMacro][i].Cantidad + cantidadAlimASumar;
-                console.log("Cantidad de alimento total"+ arrayFinal[idxOtroMacro][i].Cantidad)
+                console.log("Cantidad de alimento total" + arrayFinal[idxOtroMacro][i].Cantidad)
                 arrayFinal[idxOtroMacro][i].Proteinas = arrayFinal[idxOtroMacro][i].Cantidad * listaAlimentosPorMacros[idxOtroMacro][i].Proteinas;
                 arrayFinal[idxOtroMacro][i].Carbohidratos = arrayFinal[idxOtroMacro][i].Cantidad * listaAlimentosPorMacros[idxOtroMacro][i].Carbohidratos;
                 arrayFinal[idxOtroMacro][i].Grasas = arrayFinal[idxOtroMacro][i].Cantidad * listaAlimentosPorMacros[idxOtroMacro][i].Grasas;
@@ -502,7 +540,7 @@ class Servicio {
 
             }
             actualizarArrayFinal();
-       
+
 
         }
 
@@ -525,39 +563,39 @@ class Servicio {
                 console.log(caloriasPorUnidad)
                 console.log("Hay que sumar " + cantidadASumar)
 
-                console.log( "cantidad antes " + arrayFinal[idxMacro][i].Cantidad)
+                console.log("cantidad antes " + arrayFinal[idxMacro][i].Cantidad)
                 arrayFinal[idxMacro][i].Cantidad = arrayFinal[idxMacro][i].Cantidad + cantidadASumar;
                 console.log("cantidad despues " + arrayFinal[idxMacro][i].Cantidad)
                 arrayFinal[idxMacro][i].Proteinas = arrayFinal[idxMacro][i].Cantidad * alimentoPorUnidad.Proteinas;
                 arrayFinal[idxMacro][i].Carbohidratos = arrayFinal[idxMacro][i].Cantidad * alimentoPorUnidad.Carbohidratos;
                 arrayFinal[idxMacro][i].Grasas = arrayFinal[idxMacro][i].Cantidad * alimentoPorUnidad.Grasas;
-                arrayFinal[idxMacro][i].Calorias =  arrayFinal[idxMacro][i].Proteinas*4 +  arrayFinal[idxMacro][i].Carbohidratos*4 +  arrayFinal[idxMacro][i].Grasas *9
-            i++;
+                arrayFinal[idxMacro][i].Calorias = arrayFinal[idxMacro][i].Proteinas * 4 + arrayFinal[idxMacro][i].Carbohidratos * 4 + arrayFinal[idxMacro][i].Grasas * 9
+                i++;
 
             }
 
         }
 
-        function damePorcentajesCaloricos(caloriasRestantes,cantidadAlimentos) {
-        let arrayPorcentajes = [];
-        let i = 0;
-        let restante = caloriasRestantes;
+        function damePorcentajesCaloricos(caloriasRestantes, cantidadAlimentos) {
+            let arrayPorcentajes = [];
+            let i = 0;
+            let restante = caloriasRestantes;
 
-        while (i < cantidadAlimentos) {
+            while (i < cantidadAlimentos) {
 
-            let total;
-            if (i + 1 === cantidadAlimentos) {
-                total = restante;
-            } else {
-                total = Math.round(Math.random() * restante);
-                restante -= total;
+                let total;
+                if (i + 1 === cantidadAlimentos) {
+                    total = restante;
+                } else {
+                    total = Math.round(Math.random() * restante);
+                    restante -= total;
+                }
+                arrayPorcentajes.push(total);
+                i++;
             }
-            arrayPorcentajes.push(total);
-            i++;
-        }
 
 
-        return arrayPorcentajes;
+            return arrayPorcentajes;
         }
 
 
@@ -588,7 +626,7 @@ class Servicio {
             }
 
 
-            else { 
+            else {
                 console.log(cantidadASacarPorTodasCalorias)
                 restarProteinas(cantidadASacarPorTodasCalorias, alimentoAModificar, idxProteinas, idxProteMenosPura)
                 console.log("EY Hasta aca tengo de proteina esto :" + arrayFinal[0][0].Proteinas)
@@ -724,7 +762,7 @@ class Servicio {
 
                 }
                 if (cantidadAlimentosPorMacro == 2) {
-    
+
                     arrayDePorcentajesReales = traerPorcentajesManual2()
                     pushearEnArray(arrayDePorcentajesReales, arrayADevolver, cantidadMacros)
 
@@ -742,7 +780,7 @@ class Servicio {
                 }
 
 
-        
+
 
 
             }
@@ -832,7 +870,7 @@ class Servicio {
             let array = [];
             let azar = Math.floor(Math.random() * 7);
             if (azar == 0 || azar == 1) {
-            array = [0.2, 0.8]
+                array = [0.2, 0.8]
 
             }
 
@@ -863,6 +901,9 @@ class Servicio {
 
 
 
+        compararEnArray(arrayFinal)
+
+
 
 
 
@@ -871,6 +912,8 @@ class Servicio {
 
 
     };
+
+
 
 
 
