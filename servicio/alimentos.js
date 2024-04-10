@@ -307,6 +307,8 @@ class Servicio {
 
             console.log("Ahora hay que equilibrar las calorías")
 
+            equilibrarCalorias();
+
 
 
         }
@@ -439,6 +441,10 @@ class Servicio {
 
             ////
 
+        }
+
+        function equilibrarCalorias() {
+        console.log("Hola equilibramos las caloriasss")
         }
 
 
@@ -913,7 +919,34 @@ class Servicio {
 
     };
 
+ 
 
+    obtenerAleatorioGrasas = async () => {
+        let alimentos = await this.obtenerAlimentos();
+        let alimentosGrasas = alimentos.filter(alimento => alimento.Grasas > alimento.Carbohidratos && alimento.Grasas > alimento.Proteinas)
+        let largo = alimentosGrasas.length;
+        let numeroAleatorio = Math.floor(Math.random() * largo);
+        return alimentosGrasas[numeroAleatorio]
+
+    };
+
+    obtenerAleatorioCarbo = async () => {
+        let alimentos = await this.obtenerAlimentos();
+        let alimentosGrasas = alimentos.filter(alimento => alimento.Carbohidratos > alimento.Grasas && alimento.Carbohidratos > alimento.Proteinas)
+        let largo = alimentosGrasas.length;
+        let numeroAleatorio = Math.floor(Math.random() * largo);
+        return alimentosGrasas[numeroAleatorio]
+
+    };
+
+    obtenerAleatorioProte = async () => {
+        let alimentos = await this.obtenerAlimentos();
+        let alimentosGrasas = alimentos.filter(alimento => alimento.Proteinas > alimento.Carbohidratos && alimento.Proteinas > alimento.Grasas)
+        let largo = alimentosGrasas.length;
+        let numeroAleatorio = Math.floor(Math.random() * largo);
+        return alimentosGrasas[numeroAleatorio]
+
+    };
 
 
 

@@ -12,6 +12,8 @@ class ControladorAlimentos {
         const alimentos = await this.servicio.obtenerAlimentos(id)
         res.json(alimentos)
     }
+ 
+
 
     obtenerProteicosMayorA = async (req, res) => {
         const { valor } = req.params;
@@ -94,6 +96,27 @@ class ControladorAlimentos {
         res.json(arrayAlimentos)
     }
 
+
+    obtenerAleatorioGrasas = async (req, res) => {
+        console.log("Empieza por aca")
+        const aleatorio = await this.servicio.obtenerAleatorioGrasas()
+        console.log("Termina bien por aca")
+        res.json(aleatorio)
+    }
+
+    obtenerAleatorioCarbo = async (req, res) => {
+        console.log("Empieza por aca")
+        const aleatorio = await this.servicio.obtenerAleatorioCarbo()
+        console.log("Termina bien por aca")
+        res.json(aleatorio)
+    }
+
+    obtenerAleatorioProte = async (req, res) => {
+        console.log("Empieza por aca")
+        const aleatorio = await this.servicio.obtenerAleatorioProte()
+        console.log("Termina bien por aca")
+        res.json(aleatorio)
+    }
 
 
 
