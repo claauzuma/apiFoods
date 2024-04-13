@@ -1,5 +1,6 @@
 import express from 'express'
 import RouterAlimentos from './router/alimentos.js'
+import RouterComidas from './router/comidas.js'
 import CnxMongoDB from './model/DBMongo.js'
 import cors from 'cors'
 
@@ -16,7 +17,7 @@ class Server {
 
   async start() {
     this.app.use(cors({
-     origin: 'https://celebrated-trifle-75e3cb.netlify.app',
+    /// origin: 'https://celebrated-trifle-75e3cb.netlify.app',
 
       credentials: true
     }));
@@ -28,6 +29,7 @@ class Server {
     
    
     this.app.use('/api/alimentos', new RouterAlimentos(process.env.MODO_PERSISTENCIA).start())
+    this.app.use('/api/comidas', new RouterComidas(process.env.MODO_PERSISTENCIA).start())
    
 
     if (this.persistencia == 'MONGODB') {
