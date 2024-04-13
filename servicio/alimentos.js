@@ -25,6 +25,14 @@ class Servicio {
         }
     }
 
+    traerUrl = async nombreAlimento => {
+
+        const alimentos = await this.obtenerAlimentos();
+        const alimento = alimentos.find(alimento => alimento.Alimentos == nombreAlimento)
+        const url = alimento.ImagenUrl;
+        return url;
+    }
+
 
     obtenerProteicosMayorA = async valor => {
 

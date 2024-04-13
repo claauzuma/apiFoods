@@ -12,6 +12,12 @@ class ControladorAlimentos {
         const alimentos = await this.servicio.obtenerAlimentos(id)
         res.json(alimentos)
     }
+
+    traerUrl = async (req, res) => {
+        const { nombreAlimento } = req.params
+        const url = await this.servicio.traerUrl(nombreAlimento)
+        res.json(url)
+    }
  
 
 

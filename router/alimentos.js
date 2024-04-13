@@ -8,7 +8,8 @@ class Router {
     }
 
     start() {
-    
+
+        this.router.get('/traerurl/:nombreAlimento', this.controladorAlimentos.traerUrl);
         this.router.get('/aleatoriograsas', this.controladorAlimentos.obtenerAleatorioGrasas);
         this.router.get('/aleatoriocarbo', this.controladorAlimentos.obtenerAleatorioCarbo);
         this.router.get('/aleatorioprote', this.controladorAlimentos.obtenerAleatorioProte);
