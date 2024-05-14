@@ -13,31 +13,39 @@ class Servicio {
     }
 
     traerComida = async (tipoComida,alimento1,alimento2,alimento3,alimento4) => {
-        if (tipoComida == "") {
+
+        let tipo = "";
+        if(tipoComida =="Almuerzo" || tipoComida =="Cena") {
+            tipo = "almuerzocena";
+        }
+        if(tipoComida =="Desayuno" || tipoComida =="Merienda") {
+            tipo = "desayunomerienda";
+        }
+
+        if (alimento1 == "" && alimento2 =="" && alimento3 == "" && alimento4 =="") {
+            console.log(alimento1)
+ 
             let comidas =  await this.model.obtenerComidas()
-            let objetosAlimentos = await this.modelAlimentos.obtenerAlimentos();
 
             let idxAleatorio = Math.floor(Math.random() * comidas.length);
             let comida = comidas[idxAleatorio];
-            return comida;
-
-
-
-
-        } else {
-            const nombreComidas = await this.model.obtenerComidas();
+    
             
-            let objetosAlimentos = await this.modelAlimentos.obtenerAlimentos();
-            let arrayObjetoComidas = [];
-            nombreComidas[0].forEach(nombre => {
-                let alimentoAPushear = objetosAlimentos.find(alimento => alimento.Alimentos == nombre)
-                arrayObjetoComidas.push(alimentoAPushear)
-                
-            });
-
             return comida;
+            
+            }
+
+            ///ACA QUIERO DEVOLVER LA COMIDA QUE SALE PERO NO SOLO LOS NOMBRES, SI NO UNA COMIDA QUE TENGA COMO ATRIBUTOS
+            ///LOS OBJETOS COMIDA
+
+
+
+            return "Hola";
+
+
+
+
         }
     }
 
-}
 export default Servicio

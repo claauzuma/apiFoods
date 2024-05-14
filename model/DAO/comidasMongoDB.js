@@ -8,11 +8,11 @@ class ModelMongoDB {
             throw new Error('No hay conexión a la base de datos');
         }
         if(id) {
-            const comida = await CnxMongoDB.db.collection('comidas').findOne({_id: new ObjectId(id)})
+            const comida = await CnxMongoDB.db.collection("comidas").findOne({_id: new ObjectId(id)})
             return comida
         }
         else {
-            const comidas = await CnxMongoDB.db.collection('comidas').find({}).toArray()
+            const comidas = await CnxMongoDB.db.collection("comidas").find({}).toArray()
             return comidas
         }
     }

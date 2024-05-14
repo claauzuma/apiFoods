@@ -20,10 +20,6 @@ class ControladorComidas {
         console.log(nombreAlim3)
         console.log(nombreAlim4)
 
-        if(nombreAlim2 == "") {
-            console.log("El alimento 2 esta vacio")
-        }
-
         const comida = await this.servicio.traerComida(tipoComida,nombreAlim1,nombreAlim2,nombreAlim3,nombreAlim4)
         res.json(comida)
     }
