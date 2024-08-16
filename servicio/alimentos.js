@@ -762,7 +762,6 @@ class Servicio {
 
 
 
-
         function traerArrayPorcentajes(cantidadMacros, cantidadAlimentosPorMacro) {
             let arrayADevolver = [];
             let arrayDePorcentajesReales = []
@@ -798,10 +797,6 @@ class Servicio {
                     pushearEnArray(arrayDePorcentajesReales, arrayADevolver, cantidadMacros)
 
                 }
-
-
-
-
 
 
             }
