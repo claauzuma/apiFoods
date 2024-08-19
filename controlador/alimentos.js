@@ -8,8 +8,8 @@ class ControladorAlimentos {
 
 
     obtenerAlimentos = async (req, res) => {
-        const { id } = req.params
-        const alimentos = await this.servicio.obtenerAlimentos(id)
+        const { nombreAlimento } = req.params
+        const alimentos = await this.servicio.obtenerAlimentos(nombreAlimento)
         res.json(alimentos)
     }
 
@@ -68,8 +68,9 @@ class ControladorAlimentos {
     }
 
     obtenerDistribuciones = async (req, res) => {
-        console.log("Arrancamossss")
-        console.log("Holaaa")
+        console.log("Arrancamossss");
+        console.log("Holaaa");
+    
         const nombreAlim1 = req.query.alimento1;
         const nombreAlim2 = req.query.alimento2;
         const nombreAlim3 = req.query.alimento3;
@@ -77,6 +78,33 @@ class ControladorAlimentos {
         const nombreAlim5 = req.query.alimento5;
         const nombreAlim6 = req.query.alimento6;
         const nombreAlim7 = req.query.alimento7;
+    
+
+        ///Recibimos como parametro los alimentos con cantidadManual y sus respectivas cantidadesManuales
+        const alimentoManual1 = req.query.alimentoManual1 || "";
+        const cantidadManual1 = req.query.cantidadManual1 || "";
+        const alimentoManual2 = req.query.alimentoManual2 || "";
+        const cantidadManual2 = req.query.cantidadManual2 || "";
+        const alimentoManual3 = req.query.alimentoManual3 || "";
+        const cantidadManual3 = req.query.cantidadManual3 || "";
+        const alimentoManual4 = req.query.alimentoManual4 || "";
+        const cantidadManual4 = req.query.cantidadManual4 || "";
+        const alimentoManual5 = req.query.alimentoManual5 || "";
+        const cantidadManual5 = req.query.cantidadManual5 || "";
+        const alimentoManual6 = req.query.alimentoManual6 || "";
+        const cantidadManual6 = req.query.cantidadManual6 || "";
+        const alimentoManual7 = req.query.alimentoManual7 || "";
+        const cantidadManual7 = req.query.cantidadManual7 || "";
+   
+        console.log("SE VIENE LA LISTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        console.log("El primer alimento es : " + alimentoManual1)
+        console.log("El segundo alimento es : " + alimentoManual2)
+        console.log("El tercer alimento es : " + alimentoManual3)
+        console.log("El cuarto alimento es : " + alimentoManual4)
+        console.log("El quinto alimento es : " + alimentoManual5)
+        console.log("El sexto alimento es : " + alimentoManual6)
+        console.log("El septimo alimento es : " + alimentoManual7)
+        console.log("Aca terminaaa")
         const totalProteinas = parseFloat(req.query.proteinas);
         const totalCarbohidratos = parseFloat(req.query.carbohidratos);
         const totalGrasas = parseFloat(req.query.grasas);
@@ -97,7 +125,7 @@ class ControladorAlimentos {
         }
         
 
-        const arrayAlimentos = await this.servicio.obtenerDistribuciones(nombreAlim1,nombreAlim2,nombreAlim3,nombreAlim4,nombreAlim5,nombreAlim6,nombreAlim7,totalProteinas,totalCarbohidratos,totalGrasas,totalCalorias);
+        const arrayAlimentos = await this.servicio.obtenerDistribuciones(nombreAlim1,nombreAlim2,nombreAlim3,nombreAlim4,nombreAlim5,nombreAlim6,nombreAlim7,totalProteinas,totalCarbohidratos,totalGrasas,totalCalorias,alimentoManual1,cantidadManual1,alimentoManual2,cantidadManual2,alimentoManual3,cantidadManual3,alimentoManual4,cantidadManual4,alimentoManual5,cantidadManual5,alimentoManual6,cantidadManual6,alimentoManual7,cantidadManual7);
 
         res.json(arrayAlimentos)
     }
@@ -124,7 +152,12 @@ class ControladorAlimentos {
         res.json(aleatorio)
     }
 
+    obtenerObjetoAlimento = async(req,res) => {
+     const objetoAlimento = await this.servicio.obtenerObjetoAlimento();
+     res.json(objetoAlimento);
 
+    } 
+  
 
 
 

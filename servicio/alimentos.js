@@ -16,13 +16,53 @@ class Servicio {
 
     }
 
-    obtenerAlimentos = async id => {
-        if (id) {
-            return await this.model.obtenerAlimentos(id)
+    obtenerAlimentos = async nombreAlimento => {
+        const alimentos = await this.model.obtenerAlimentos()
+
+        if (nombreAlimento) {
+            console.log("EL NOMBRE DEL ALIMENTO ESSSSSSSSSSS : ")
+            console.log(nombreAlimento)
+            return alimentos.find(alimento => alimento.Alimentos == nombreAlimento)
         } else {
-            const alimentos = await this.model.obtenerAlimentos(id)
             return alimentos
         }
+    }
+
+
+    obtenerObjetoAlimentoConCantidades = async (nombreAlimento, cantidadAlimento) => {
+        // Obtener el objeto alimento desde el modelo
+        const alimentos = await this.model.obtenerAlimentos();
+        const objetoAlimento = alimentos.find(alimento => alimento.Alimentos == nombreAlimento);
+        console.log("Aca vemos al objeto alimento " + objetoAlimento)
+        
+        if (!objetoAlimento) {
+            throw new Error(`Alimento ${nombreAlimento} no encontrado`);
+        }
+    
+        // Clonar el objeto alimento para evitar modificar el original
+        const objetoModificado = { ...objetoAlimento };
+        
+        // Modificar las propiedades basadas en la cantidad
+        objetoModificado.Cantidad = cantidadAlimento;
+        objetoModificado.Proteinas *= cantidadAlimento;
+        objetoModificado.Carbohidratos *= cantidadAlimento;
+        objetoModificado.Grasas *= cantidadAlimento;
+        objetoModificado.Calorias *= cantidadAlimento;
+    
+        // Crear el objeto a devolver con las propiedades necesarias
+        const objetoADevolver = {
+            Nombre: objetoModificado.Alimentos,
+            Cantidad: objetoModificado.Cantidad,
+            Carbohidratos: objetoModificado.Carbohidratos,
+            Proteinas: objetoModificado.Proteinas,
+            Grasas: objetoModificado.Grasas,
+            Calorias: objetoModificado.Calorias,
+            Unidad: objetoModificado.Unidad
+        };
+
+        console.log(objetoADevolver)
+    
+        return objetoADevolver;
     }
 
     traerUrl = async nombreAlimento => {
@@ -101,7 +141,34 @@ class Servicio {
     }
 
 
-    obtenerDistribuciones = async (nombreAlim1, nombreAlim2, nombreAlim3, nombreAlim4, nombreAlim5, nombreAlim6, nombreAlim7, proteinas, carbohidratos, grasas, calorias) => {
+
+    obtenerDistribuciones = async (
+        nombreAlim1, 
+        nombreAlim2, 
+        nombreAlim3, 
+        nombreAlim4, 
+        nombreAlim5, 
+        nombreAlim6, 
+        nombreAlim7, 
+        proteinas, 
+        carbohidratos, 
+        grasas, 
+        calorias, 
+        alimentoManual1, 
+        cantidadManual1, 
+        alimentoManual2, 
+        cantidadManual2, 
+        alimentoManual3, 
+        cantidadManual3, 
+        alimentoManual4, 
+        cantidadManual4, 
+        alimentoManual5, 
+        cantidadManual5, 
+        alimentoManual6, 
+        cantidadManual6, 
+        alimentoManual7, 
+        cantidadManual7
+    ) => {
 
         const idxProteinas = 0;
         const idxCarbohidratos = 1;
@@ -821,6 +888,7 @@ class Servicio {
                 }
             }
 
+
             return arrayADevolver;
         }
 
@@ -1042,18 +1110,524 @@ class Servicio {
         }
 
 
+        function hayAlimentosCantidadManual()  {
+            console.log("VERIFICAMOS SI HAY ALIMENTOS CON CANTIDAD MANUAL ")
+            let hay = false;
+            if(cantidadManual1 > 0 || 
+                cantidadManual2 > 0 || 
+                cantidadManual3 > 0 || 
+                cantidadManual4 > 0 || 
+                cantidadManual5 > 0 || 
+                cantidadManual6 > 0 || 
+                cantidadManual7 > 0) {
+                    hay = true
+                }
+    
+            return hay;
+        };
 
-        compararEnArray(arrayFinal)
+
+
+    compararEnArray(arrayFinal)
 
 
 
+    if(hayAlimentosCantidadManual()) {
+
+     ////Ejecutamos la lógica para devolver un array con las cantidades que el usuario nos pasa en cantidad Manual     
+     console.log("El array final es + " )
+     console.log(JSON.stringify(arrayFinal, null, 2));
+
+     console.log("Y los alimentos manuales son : ")
 
 
+     console.log(alimentoManual1+ "" + alimentoManual2 + "" + alimentoManual3)
+
+     let arrayDeCantidadesManuales = [[],[],[]];
+     await this.agregarEnArrayDeCantidadesManuales(arrayDeCantidadesManuales,alimentoManual1,alimentoManual2,alimentoManual3,alimentoManual4,alimentoManual5,alimentoManual6,alimentoManual7,cantidadManual1,
+       cantidadManual2,cantidadManual3,cantidadManual4,cantidadManual5,cantidadManual6,cantidadManual7
+    );
+    
+    console.log("Vamos a mostrar el array de cantidades manuales : ")
+
+    console.log(JSON.stringify(arrayDeCantidadesManuales, null, 2));
+
+
+     let arrayFinalModificado = [[],[],[],[]]
+     arrayFinalModificado = await this.compararArrays(arrayFinal,arrayDeCantidadesManuales)
+ 
+
+    
+    
+
+     console.log("VAMOS A VER COMO QUEDA EL ARRAY FINAL MODIFICADO")
+     console.log(JSON.stringify(arrayFinalModificado, null, 2)); 
+     
+     return arrayFinalModificado;
+
+    } 
+    console.log("VAMOS A VER COMO QUEDA EL ARRAY FINAL")
+    console.log(JSON.stringify(arrayFinal, null, 2)); 
+ 
         return arrayFinal;
 
 
 
     };
+
+
+    compararArrays = async (arrayFinal, arrayDeCantidadesManuales) => {
+        let arrayFinalModificado = [[],[],[],[]];
+        let caloriasPorMacro = [];
+        let caloriasTotalesPorMacro = 0;
+
+      ////Primero crearmos el array de calorias totales por macro, del arrayFinal. Las calorias totales que hay en el array final
+        let a = 0;
+        while( a < 3) {
+            let b = 0;
+            while (b < arrayFinal[a].length) {
+                caloriasTotalesPorMacro += arrayFinal[a][b].Calorias;
+                
+                b++;
+
+            }
+            //Cuando termina de recorrer todo el indice de alimentos de macronutriente, se setea el array
+            caloriasPorMacro[a] = caloriasTotalesPorMacro;
+            caloriasTotalesPorMacro = 0;
+            a++;
+
+        }
+
+        console.log("VAAAMOS A VER EL ARRAY DE MACROSSS POR CANTIDAD TOTAL")
+        console.log(caloriasPorMacro);
+    
+        // Copiar el contenido de arrayFinal a arrayFinalModificado
+        for (let i = 0; i < arrayFinal.length; i++) {
+            arrayFinalModificado[i] = [...arrayFinal[i]];
+        }
+
+        let x = 0;
+        while (x < arrayFinalModificado.length-1) {
+            let y = 0;
+            while (y < arrayFinalModificado[x].length) {
+                arrayFinalModificado[x][y].amodificar = false;
+                y++; // Incrementar y para evitar un bucle infinito
+            }
+            x++; // Incrementar x para evitar un bucle infinito
+        }
+
+
+
+
+        // Recorrer y copiar el contenido de arrayDeCantidadesManuales a arrayFinalModificado
+        for (let h = 0; h < 3; h++) {
+            console.log("VUELTA DEL FOR NUMERO " + h)
+            if (arrayDeCantidadesManuales[h].length > 0 && arrayDeCantidadesManuales[h].length < arrayFinalModificado[h].length) {
+         
+
+                ///Si el alimento de cantidades manuales es igual al alimento del array final, hacemos el cambio
+
+                for (let j = 0; j < arrayDeCantidadesManuales[h].length; j++) {
+
+                    for (let k = 0; k < arrayFinalModificado[h].length; k++) {
+
+
+                    // Reemplazar en arrayFinalModificado los objetos correspondientes
+                    console.log("ENTRAAAAAAAAAA LA COMPARACION PARA EL TRUE OR FALSEE")
+                    console.log(arrayDeCantidadesManuales[h][j].Nombre);
+                    console.log(arrayFinalModificado[h][k].Nombre);
+
+
+                    if(arrayFinal[h][k].Nombre != arrayDeCantidadesManuales[h][j].Nombre) {
+                    arrayFinalModificado[h][k].amodificar = true }
+
+                    if(arrayFinal[h][k].Nombre == arrayDeCantidadesManuales[h][j].Nombre) {
+                        console.log("SON IGUALES ASI QE PROCEDEMOS A HACER EL CAMBIO")
+    
+                    arrayFinalModificado[h][k] = arrayDeCantidadesManuales[h][j];
+                    
+                    caloriasPorMacro[h]-= arrayFinalModificado[h][k].Calorias;
+                    arrayFinalModificado[h][k].amodificar = false; 
+
+                } 
+                    //Aca quedarian solo las calorias restantes por macro
+                    //Ejemplo [500],[100],[20]
+                  }
+
+
+
+
+                }
+            }
+
+            console.log("Sale del for")
+        }
+
+ 
+
+        
+        
+        let i = 0;
+        arrayFinalModificado[3][0].Proteinas = 0;
+        arrayFinalModificado[3][0].Carbohidratos = 0;
+        arrayFinalModificado[3][0].Grasas = 0;
+        arrayFinalModificado[3][0].Calorias = 0;
+        while(i < 3) {
+            let j= 0;
+            while (j < arrayFinalModificado[i].length) {
+                console.log("Arrancamos por " + arrayFinalModificado[i][j].Nombre)
+                arrayFinalModificado[3][0].Proteinas += arrayFinalModificado[i][j].Proteinas
+                arrayFinalModificado[3][0].Carbohidratos += arrayFinalModificado[i][j].Carbohidratos
+                arrayFinalModificado[3][0].Grasas += arrayFinalModificado[i][j].Grasas
+                arrayFinalModificado[3][0].Calorias += arrayFinalModificado[i][j].Calorias
+                console.log("Las proteinas luego del primer macro son " + arrayFinalModificado[3][0].Proteinas)
+                console.log("lOS CH luego del primer macro son " + arrayFinalModificado[3][0].Carbohidratos)
+                console.log("Las gr luego del primer macro son " + arrayFinalModificado[3][0].Grasas)
+                console.log("Vuelta numero " + i+1)
+
+           j++;
+            }
+         i++;
+
+        }  
+
+        console.log("Array final sin modificar del todo TRUE OR FALSEEE A VEEEEEEEEEEEEEEEER")
+        console.log(JSON.stringify(arrayFinalModificado, null, 2));
+
+
+            ///HASTA ACA VA TODO BIEN, HAY QUE VER EL REPARTO DE CALORIAS
+
+
+
+         i = 0;
+
+
+         function traerPorcentajesManual2() {
+            let array = [];
+            let combinaciones = [
+                [0.1, 0.9],
+                [0.2, 0.8],
+                [0.3, 0.7],
+                [0.4, 0.6],
+                [0.5, 0.5],
+                [0.6, 0.4],
+                [0.7, 0.3],
+                [0.8, 0.2],
+                [0.9, 0.1]
+            ];
+        
+            let azar = Math.floor(Math.random() * combinaciones.length);
+            array = combinaciones[azar];
+        
+            return array;
+        }
+
+        function traerPorcentajesManual3() {
+            let array = [];
+            let combinaciones = [
+                [0.1, 0.1, 0.8],
+                [0.1, 0.2, 0.7],
+                [0.1, 0.3, 0.6],
+                [0.1, 0.4, 0.5],
+                [0.1, 0.5, 0.4],
+                [0.1, 0.6, 0.3],
+                [0.1, 0.7, 0.2],
+                [0.1, 0.8, 0.1],
+                [0.2, 0.1, 0.7],
+                [0.2, 0.2, 0.6],
+                [0.2, 0.3, 0.5],
+                [0.2, 0.4, 0.4],
+                [0.2, 0.5, 0.3],
+                [0.2, 0.6, 0.2],
+                [0.2, 0.7, 0.1],
+                [0.3, 0.1, 0.6],
+                [0.3, 0.2, 0.5],
+                [0.3, 0.3, 0.4],
+                [0.3, 0.4, 0.3],
+                [0.3, 0.5, 0.2],
+                [0.3, 0.6, 0.1],
+                [0.4, 0.1, 0.5],
+                [0.4, 0.2, 0.4],
+                [0.4, 0.3, 0.3],
+                [0.4, 0.4, 0.2],
+                [0.4, 0.5, 0.1],
+                [0.5, 0.1, 0.4],
+                [0.5, 0.2, 0.3],
+                [0.5, 0.3, 0.2],
+                [0.5, 0.4, 0.1],
+                [0.6, 0.1, 0.3],
+                [0.6, 0.2, 0.2],
+                [0.6, 0.3, 0.1],
+                [0.7, 0.1, 0.2],
+                [0.7, 0.2, 0.1],
+                [0.8, 0.1, 0.1]
+            ];
+        
+            let azar = Math.floor(Math.random() * combinaciones.length);
+            array = combinaciones[azar];
+        
+            return array;
+        }
+
+
+        function traerPorcentajesManual4() {
+            let array = [];
+            let combinaciones = [
+                [0.1, 0.1, 0.1, 0.7],
+                [0.1, 0.1, 0.2, 0.6],
+                [0.1, 0.1, 0.3, 0.5],
+                [0.1, 0.1, 0.4, 0.4],
+                [0.1, 0.1, 0.5, 0.3],
+                [0.1, 0.1, 0.6, 0.2],
+                [0.1, 0.1, 0.7, 0.1],
+                [0.1, 0.2, 0.2, 0.5],
+                [0.1, 0.2, 0.3, 0.4],
+                [0.1, 0.2, 0.4, 0.3],
+                [0.1, 0.2, 0.5, 0.2],
+                [0.1, 0.2, 0.6, 0.1],
+                [0.1, 0.3, 0.3, 0.3],
+                [0.1, 0.3, 0.4, 0.2],
+                [0.1, 0.3, 0.5, 0.1],
+                [0.1, 0.4, 0.4, 0.1],
+                [0.1, 0.4, 0.3, 0.2],
+                [0.1, 0.5, 0.2, 0.2],
+                [0.1, 0.6, 0.2, 0.1],
+                [0.2, 0.2, 0.2, 0.4],
+                [0.2, 0.2, 0.3, 0.3],
+                [0.2, 0.2, 0.4, 0.2],
+                [0.2, 0.2, 0.5, 0.1],
+                [0.2, 0.3, 0.3, 0.2],
+                [0.2, 0.3, 0.2, 0.3],
+                [0.2, 0.3, 0.4, 0.1],
+                [0.2, 0.4, 0.2, 0.2],
+                [0.2, 0.4, 0.3, 0.1],
+                [0.2, 0.5, 0.1, 0.2],
+                [0.3, 0.3, 0.3, 0.1],
+                [0.3, 0.3, 0.2, 0.2],
+                [0.3, 0.4, 0.1, 0.2],
+                [0.3, 0.2, 0.4, 0.1],
+                [0.4, 0.4, 0.1, 0.1],
+                [0.4, 0.3, 0.2, 0.1],
+                [0.4, 0.2, 0.3, 0.1],
+                [0.5, 0.2, 0.2, 0.1],
+                [0.6, 0.2, 0.1, 0.1],
+                [0.7, 0.1, 0.1, 0.1]
+            ];
+        
+            let azar = Math.floor(Math.random() * combinaciones.length);
+            array = combinaciones[azar];
+        
+            return array;
+        }
+
+
+        function traerPorcentajesManual5() {
+            let array = [];
+            let combinaciones = [
+                [0.1, 0.1, 0.1, 0.1, 0.6],
+                [0.1, 0.1, 0.1, 0.2, 0.5],
+                [0.1, 0.1, 0.1, 0.3, 0.4],
+                [0.1, 0.1, 0.1, 0.4, 0.3],
+                [0.1, 0.1, 0.1, 0.5, 0.2],
+                [0.1, 0.1, 0.1, 0.6, 0.1],
+                [0.1, 0.1, 0.2, 0.2, 0.4],
+                [0.1, 0.1, 0.2, 0.3, 0.3],
+                [0.1, 0.1, 0.2, 0.4, 0.2],
+                [0.1, 0.1, 0.2, 0.5, 0.1],
+                [0.1, 0.1, 0.3, 0.3, 0.2],
+                [0.1, 0.1, 0.3, 0.4, 0.1],
+                [0.1, 0.1, 0.4, 0.3, 0.1],
+                [0.1, 0.2, 0.2, 0.2, 0.3],
+                [0.1, 0.2, 0.2, 0.3, 0.2],
+                [0.1, 0.2, 0.3, 0.3, 0.1],
+                [0.1, 0.3, 0.3, 0.2, 0.1],
+                [0.1, 0.4, 0.2, 0.2, 0.1],
+                [0.1, 0.5, 0.2, 0.1, 0.1],
+                [0.2, 0.2, 0.2, 0.2, 0.2],
+                [0.2, 0.2, 0.2, 0.3, 0.1],
+                [0.2, 0.2, 0.3, 0.2, 0.1],
+                [0.2, 0.3, 0.3, 0.1, 0.1],
+                [0.2, 0.4, 0.2, 0.1, 0.1],
+                [0.3, 0.3, 0.2, 0.1, 0.1],
+                [0.3, 0.2, 0.3, 0.1, 0.1],
+                [0.4, 0.2, 0.2, 0.1, 0.1],
+                [0.5, 0.2, 0.1, 0.1, 0.1],
+                [0.6, 0.1, 0.1, 0.1, 0.1]
+            ];
+        
+            let azar = Math.floor(Math.random() * combinaciones.length);
+            array = combinaciones[azar];
+        
+            return array;
+        }
+
+        while (i < 3) {
+          ///vemos cuantos alimentos a modificar hay en cada macro
+          let cantidadAModificar = arrayFinalModificado[i].filter(alimento => alimento.amodificar === true).length;
+          if(cantidadAModificar > 0)
+             {
+          let arrayDePorcentajes = [1];
+
+          if(cantidadAModificar == 2) {
+            arrayDePorcentajes = traerPorcentajesManual2();
+          }
+          if(cantidadAModificar == 3) {
+            arrayDePorcentajes = traerPorcentajesManual3();
+          }
+          if(cantidadAModificar == 4) {
+            arrayDePorcentajes = traerPorcentajesManual4();
+          }
+
+          if(cantidadAModificar == 5) {
+            arrayDePorcentajes = traerPorcentajesManual5();
+          }
+         console.log("EL ARRAY DE PORCENTAJES ES " + arrayDePorcentajes)
+           
+           let cantModif = 0;
+            let j = 0; 
+            while (j < arrayFinalModificado[i].length) {
+                let alimentoAModificar = arrayFinalModificado[i][j];
+
+                if (alimentoAModificar.amodificar === true) {
+                    console.log("");
+                   ///Calculamos el total de calorias para ese alimento: 
+
+                   let totalCaloricoAPasar = caloriasPorMacro[i] * arrayDePorcentajes[cantModif];
+                   console.log("Las calorias a pasar son de " + totalCaloricoAPasar + " al alimento  "+ alimentoAModificar.Nombre);
+
+                    alimentoAModificar = await this.generarNuevaCantidad(alimentoAModificar, totalCaloricoAPasar);
+                    arrayFinalModificado[i][j] = alimentoAModificar; // Asegúrate de que el cambio se guarde en el array
+                    cantModif++;
+                }
+                j++; // Incrementa j para avanzar al siguiente elemento en el array
+            }
+
+        }
+            i++; // Incrementa i para avanzar al siguiente subarray
+         
+    }
+
+
+
+
+    let m = 0;
+    arrayFinalModificado[3][0].Proteinas = 0;
+    arrayFinalModificado[3][0].Carbohidratos = 0;
+    arrayFinalModificado[3][0].Grasas = 0;
+    arrayFinalModificado[3][0].Calorias = 0;
+    while(m < 3) {
+        let j= 0;
+        while (j < arrayFinalModificado[m].length) {
+            console.log("Arrancamos por " + arrayFinalModificado[m][j].Nombre)
+            arrayFinalModificado[3][0].Proteinas += arrayFinalModificado[m][j].Proteinas
+            arrayFinalModificado[3][0].Carbohidratos += arrayFinalModificado[m][j].Carbohidratos
+            arrayFinalModificado[3][0].Grasas += arrayFinalModificado[m][j].Grasas
+            arrayFinalModificado[3][0].Calorias += arrayFinalModificado[m][j].Calorias
+
+       j++;
+        }
+     m++;
+
+    }  
+
+    console.log("LAS CALORIAS TOTALES DEL ARRAY FINAL MODIFICADO SON ")
+    console.log(arrayFinalModificado[3][0]);
+    
+   
+
+
+        return arrayFinalModificado;
+    }
+
+    generarNuevaCantidad = async (alimentoAModificar, caloriasACubrir) => {
+        console.log("El alimento a modificar es " + alimentoAModificar.Nombre)
+        console.log("Las calorias a cubrir son " + caloriasACubrir)
+    
+        let objetoAlimento = await this.obtenerAlimentos(alimentoAModificar.Nombre);
+        let protesAPasar = 0;
+        let carbosAPasar = 0;
+        let grasasAPasar = 0;
+        let cantidadAPasar = 0;
+
+        cantidadAPasar = caloriasACubrir / objetoAlimento.Calorias;
+        protesAPasar = objetoAlimento.Proteinas * cantidadAPasar;
+        carbosAPasar = objetoAlimento.Carbohidratos * cantidadAPasar;
+        grasasAPasar = objetoAlimento.Grasas * cantidadAPasar;
+     
+        alimentoAModificar.Proteinas = protesAPasar;
+        alimentoAModificar.Carbohidratos = carbosAPasar;
+        alimentoAModificar.Grasas = grasasAPasar;
+        alimentoAModificar.Cantidad = cantidadAPasar;
+        alimentoAModificar.Calorias = protesAPasar*4 + carbosAPasar*4+ grasasAPasar*9;
+
+        console.log("La cantidad del alimento a modificar es de " + alimentoAModificar.Cantidad)
+
+        return alimentoAModificar;
+
+    }
+
+    agregarEnArrayDeCantidadesManuales = async (arrayDeCantidadesManuales,
+        alimentoManual1, alimentoManual2, alimentoManual3, alimentoManual4, 
+        alimentoManual5, alimentoManual6, alimentoManual7, 
+        cantidadManual1, cantidadManual2, cantidadManual3, 
+        cantidadManual4, cantidadManual5, cantidadManual6, cantidadManual7
+    ) => {
+        console.log("ENTRAMOS EN AGREGAR EN ARRAY DE CANTIDADES MANUALESSSSSSSSSSSSSSSSSS");
+        console.log(alimentoManual1);
+    
+        // Crear un array con los alimentos manuales
+        const alimentosManuales = [
+            alimentoManual1, alimentoManual2, alimentoManual3, 
+            alimentoManual4, alimentoManual5, alimentoManual6, 
+            alimentoManual7
+        ];
+
+        const cantidadesManuales = [
+            cantidadManual1, cantidadManual2, cantidadManual3, 
+            cantidadManual4, cantidadManual5, cantidadManual6, 
+            cantidadManual7
+        ];
+    
+        // Calcular la cantidad de veces que los alimentos no son vacíos
+        const cantidadARecorrer = alimentosManuales.filter(alimento => alimento !== "").length;
+        console.log("Cantidad a recorrer " + cantidadARecorrer)
+
+        const idxProte = 0;
+        const idxCarbo = 1;
+        const idxGrasas = 2;
+    
+        let i = 0;
+        while (i < cantidadARecorrer) {
+            let alimentoConCantidad = await this.obtenerObjetoAlimentoConCantidades(alimentosManuales[i],cantidadesManuales[i]);
+            console.log("Alimento con cantidad " + alimentoConCantidad.Nombre)
+            let objetoAlimento = await this.obtenerAlimentos(alimentosManuales[i])
+            console.log("Objeto alimento" + objetoAlimento.Alimentos)
+    
+            if (objetoAlimento.Grasas >= objetoAlimento.Proteinas && objetoAlimento.Grasas > objetoAlimento.Carbohidratos) {
+                arrayDeCantidadesManuales[idxGrasas].push(alimentoConCantidad)
+            } else if (objetoAlimento.Proteinas > objetoAlimento.Carbohidratos && objetoAlimento.Proteinas > objetoAlimento.Grasas) {
+                arrayDeCantidadesManuales[idxProte].push(alimentoConCantidad)
+            } else {
+                arrayDeCantidadesManuales[idxCarbo].push(alimentoConCantidad)
+            }
+    
+    
+            i++;
+        }
+
+        console.log("Vemos la cantidad de alimentos que hay en el array de cantidad manuales")
+        console.log(arrayDeCantidadesManuales[0].length)
+        console.log(arrayDeCantidadesManuales[1].length)
+        console.log(arrayDeCantidadesManuales[2].length)
+     
+        console.log("Salimos del metodo")
+    
+        return arrayDeCantidadesManuales;
+    }
+
+    
+
+
 
  
 
