@@ -1176,6 +1176,9 @@ class Servicio {
     };
 
 
+    
+
+
     compararArrays = async (arrayFinal, arrayDeCantidadesManuales) => {
         let arrayFinalModificado = [[],[],[],[]];
         let caloriasPorMacro = [];
@@ -1194,6 +1197,7 @@ class Servicio {
             //Cuando termina de recorrer todo el indice de alimentos de macronutriente, se setea el array
             caloriasPorMacro[a] = caloriasTotalesPorMacro;
             caloriasTotalesPorMacro = 0;
+
             a++;
 
         }
@@ -1210,7 +1214,7 @@ class Servicio {
         while (x < arrayFinalModificado.length-1) {
             let y = 0;
             while (y < arrayFinalModificado[x].length) {
-                arrayFinalModificado[x][y].amodificar = false;
+                arrayFinalModificado[x][y].amodificar = true;
                 y++; // Incrementar y para evitar un bucle infinito
             }
             x++; // Incrementar x para evitar un bucle infinito
@@ -1223,29 +1227,22 @@ class Servicio {
         for (let h = 0; h < 3; h++) {
             console.log("VUELTA DEL FOR NUMERO " + h)
             if (arrayDeCantidadesManuales[h].length > 0 && arrayDeCantidadesManuales[h].length < arrayFinalModificado[h].length) {
-         
 
                 ///Si el alimento de cantidades manuales es igual al alimento del array final, hacemos el cambio
 
                 for (let j = 0; j < arrayDeCantidadesManuales[h].length; j++) {
 
                     for (let k = 0; k < arrayFinalModificado[h].length; k++) {
-
-
                     // Reemplazar en arrayFinalModificado los objetos correspondientes
                     console.log("ENTRAAAAAAAAAA LA COMPARACION PARA EL TRUE OR FALSEE")
                     console.log(arrayDeCantidadesManuales[h][j].Nombre);
                     console.log(arrayFinalModificado[h][k].Nombre);
 
-
-                    if(arrayFinal[h][k].Nombre != arrayDeCantidadesManuales[h][j].Nombre) {
-                    arrayFinalModificado[h][k].amodificar = true }
-
                     if(arrayFinal[h][k].Nombre == arrayDeCantidadesManuales[h][j].Nombre) {
-                        console.log("SON IGUALES ASI QE PROCEDEMOS A HACER EL CAMBIO")
-    
+
                     arrayFinalModificado[h][k] = arrayDeCantidadesManuales[h][j];
-                    
+
+                    ///Aca restamos las calorias de las cantidades manuales a las calorias reales
                     caloriasPorMacro[h]-= arrayFinalModificado[h][k].Calorias;
                     arrayFinalModificado[h][k].amodificar = false; 
 
@@ -1253,6 +1250,8 @@ class Servicio {
                     //Aca quedarian solo las calorias restantes por macro
                     //Ejemplo [500],[100],[20]
                   }
+          
+               
 
 
 
