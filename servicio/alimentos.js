@@ -16,17 +16,7 @@ class Servicio {
 
     }
 
-    obtenerAlimentos = async nombreAlimento => {
-        const alimentos = await this.model.obtenerAlimentos()
 
-        if (nombreAlimento) {
-            console.log("EL NOMBRE DEL ALIMENTO ESSSSSSSSSSS : ")
-            console.log(nombreAlimento)
-            return alimentos.find(alimento => alimento.Alimentos == nombreAlimento)
-        } else {
-            return alimentos
-        }
-    }
 
 
     obtenerObjetoAlimentoConCantidades = async (nombreAlimento, cantidadAlimento) => {
@@ -63,6 +53,18 @@ class Servicio {
         console.log(objetoADevolver)
     
         return objetoADevolver;
+    }
+
+    obtenerAlimentos = async nombreAlimento => {
+        const alimentos = await this.model.obtenerAlimentos()
+
+        if (nombreAlimento) {
+            console.log("EL NOMBRE DEL ALIMENTO ESSSSSSSSSSS : ")
+            console.log(nombreAlimento)
+            return alimentos.find(alimento => alimento.Alimentos == nombreAlimento)
+        } else {
+            return alimentos
+        }
     }
 
     traerUrl = async nombreAlimento => {
@@ -1127,7 +1129,7 @@ class Servicio {
         };
 
 
-
+      ////Aca deberiamos ajustar un poco mas las calorias por las dudas
     compararEnArray(arrayFinal)
 
 
@@ -1166,6 +1168,8 @@ class Servicio {
      return arrayFinalModificado;
 
     } 
+
+
     console.log("VAMOS A VER COMO QUEDA EL ARRAY FINAL")
     console.log(JSON.stringify(arrayFinal, null, 2)); 
  
@@ -1201,10 +1205,8 @@ class Servicio {
             a++;
 
         }
-
-        console.log("VAAAMOS A VER EL ARRAY DE MACROSSS POR CANTIDAD TOTAL")
-        console.log(caloriasPorMacro);
     
+
         // Copiar el contenido de arrayFinal a arrayFinalModificado
         for (let i = 0; i < arrayFinal.length; i++) {
             arrayFinalModificado[i] = [...arrayFinal[i]];
@@ -1224,47 +1226,50 @@ class Servicio {
 
 
         // Recorrer y copiar el contenido de arrayDeCantidadesManuales a arrayFinalModificado
+
         for (let h = 0; h < 3; h++) {
-            console.log("VUELTA DEL FOR NUMERO " + h)
+  
             if (arrayDeCantidadesManuales[h].length > 0 && arrayDeCantidadesManuales[h].length < arrayFinalModificado[h].length) {
+                
 
                 ///Si el alimento de cantidades manuales es igual al alimento del array final, hacemos el cambio
 
                 for (let j = 0; j < arrayDeCantidadesManuales[h].length; j++) {
-
+                    
                     for (let k = 0; k < arrayFinalModificado[h].length; k++) {
                     // Reemplazar en arrayFinalModificado los objetos correspondientes
-                    console.log("ENTRAAAAAAAAAA LA COMPARACION PARA EL TRUE OR FALSEE")
-                    console.log(arrayDeCantidadesManuales[h][j].Nombre);
-                    console.log(arrayFinalModificado[h][k].Nombre);
 
                     if(arrayFinal[h][k].Nombre == arrayDeCantidadesManuales[h][j].Nombre) {
+
 
                     arrayFinalModificado[h][k] = arrayDeCantidadesManuales[h][j];
 
                     ///Aca restamos las calorias de las cantidades manuales a las calorias reales
                     caloriasPorMacro[h]-= arrayFinalModificado[h][k].Calorias;
                     arrayFinalModificado[h][k].amodificar = false; 
+                  
 
                 } 
                     //Aca quedarian solo las calorias restantes por macro
                     //Ejemplo [500],[100],[20]
+                  
                   }
           
-               
-
-
-
+        
+            
 
                 }
             }
 
-            console.log("Sale del for")
+
         }
 
- 
 
+         console.log("Vemos el array de calorias")
+         console.log(caloriasPorMacro);
         
+
+
         
         let i = 0;
         arrayFinalModificado[3][0].Proteinas = 0;
@@ -1279,10 +1284,6 @@ class Servicio {
                 arrayFinalModificado[3][0].Carbohidratos += arrayFinalModificado[i][j].Carbohidratos
                 arrayFinalModificado[3][0].Grasas += arrayFinalModificado[i][j].Grasas
                 arrayFinalModificado[3][0].Calorias += arrayFinalModificado[i][j].Calorias
-                console.log("Las proteinas luego del primer macro son " + arrayFinalModificado[3][0].Proteinas)
-                console.log("lOS CH luego del primer macro son " + arrayFinalModificado[3][0].Carbohidratos)
-                console.log("Las gr luego del primer macro son " + arrayFinalModificado[3][0].Grasas)
-                console.log("Vuelta numero " + i+1)
 
            j++;
             }
@@ -1290,15 +1291,17 @@ class Servicio {
 
         }  
 
-        console.log("Array final sin modificar del todo TRUE OR FALSEEE A VEEEEEEEEEEEEEEEER")
-        console.log(JSON.stringify(arrayFinalModificado, null, 2));
+        
+        console.log("VEMOS EL ARRAYYYYY SIN PASARLE SUS RESPECTIVAS CALORIAS MANUALES ")
+        console.log(JSON.stringify(arrayFinalModificado, null, 2)); 
+
 
 
             ///HASTA ACA VA TODO BIEN, HAY QUE VER EL REPARTO DE CALORIAS
 
 
 
-         i = 0;
+    
 
 
          function traerPorcentajesManual2() {
@@ -1460,6 +1463,8 @@ class Servicio {
             return array;
         }
 
+        i = 0;
+
         while (i < 3) {
           ///vemos cuantos alimentos a modificar hay en cada macro
           let cantidadAModificar = arrayFinalModificado[i].filter(alimento => alimento.amodificar === true).length;
@@ -1480,22 +1485,44 @@ class Servicio {
           if(cantidadAModificar == 5) {
             arrayDePorcentajes = traerPorcentajesManual5();
           }
-         console.log("EL ARRAY DE PORCENTAJES ES " + arrayDePorcentajes)
-           
+
+        
+
+
+
            let cantModif = 0;
             let j = 0; 
             while (j < arrayFinalModificado[i].length) {
                 let alimentoAModificar = arrayFinalModificado[i][j];
 
                 if (alimentoAModificar.amodificar === true) {
-                    console.log("");
-                   ///Calculamos el total de calorias para ese alimento: 
 
-                   let totalCaloricoAPasar = caloriasPorMacro[i] * arrayDePorcentajes[cantModif];
-                   console.log("Las calorias a pasar son de " + totalCaloricoAPasar + " al alimento  "+ alimentoAModificar.Nombre);
-
+                    let totalCaloricoAPasar = caloriasPorMacro[i] * arrayDePorcentajes[cantModif];
                     alimentoAModificar = await this.generarNuevaCantidad(alimentoAModificar, totalCaloricoAPasar);
                     arrayFinalModificado[i][j] = alimentoAModificar; // Asegúrate de que el cambio se guarde en el array
+
+    
+
+                  /*   if(alimentoAModificar.Calorias < 0) {
+                        arrayFinalModificado[i][j].Calorias = 0;
+                        arrayFinalModificado[i][j].Carbohidratos = 0;
+                        arrayFinalModificado[i][j].Proteinas = 0;
+                        arrayFinalModificado[i][j].Grasas = 0;
+                        arrayFinalModificado[i][j].Cantidad = 0;
+                        console.log("Este alimento tiene calorias negativas " + alimentoAModificar.Nombre)
+                        console.log("EL TOTAL CALORICO ES NEGATIVO, MANOS A LA OBRA")
+                        console.log(" ")
+                        console.log(" ")
+                        let caloriasARestar = totalCaloricoAPasar *-1;
+                        console.log("LAS CALORIAS A RESTAR SON DE " +caloriasARestar)
+                        totalCaloricoAPasar = 0;
+                         console.log(" ")
+                        procesarAlimentos(i,caloriasARestar,this.generarNuevaCantidad);
+    
+                       }
+                       
+     */
+
                     cantModif++;
                 }
                 j++; // Incrementa j para avanzar al siguiente elemento en el array
@@ -1506,7 +1533,64 @@ class Servicio {
          
     }
 
+    ///Creo que anda bien por ahora esto 
 
+   /*  async function procesarAlimentos(indiceMacro,caloriasDisponibles,generarNuevaCantidad) {
+      
+
+        let i = 0;
+        while (i < arrayFinalModificado[indiceMacro].length) {
+            let alimentoActual = arrayFinalModificado[indiceMacro][i];
+        
+
+            if(alimentoActual.amodificar === false) {
+                console.log("Procesamos el primer alimentoooo que NO es A MODIFICAR " + alimentoActual.Nombre)
+                console.log("Su cantidad es de  " + alimentoActual.Cantidad)
+                console.log("Sus calorias son de  " + alimentoActual.Calorias)
+                console.log("LAS CALORIAS DISPONIBLES SON DE " + caloriasDisponibles)
+
+                
+                 if(alimentoActual.Calorias >= caloriasDisponibles) {
+                    console.log("Las calorias del alimento "+alimentoActual.Nombre + " " + "SON MAYORES, cubren las calorias disponibles")
+                    let caloriasCuadradas = alimentoActual.Calorias - caloriasDisponibles;
+                    console.log("Las nuevas calorias para el alimento " +alimentoActual.Nombre + " son de" +caloriasCuadradas)
+                    console.log("AHORA VAMOS AL METODO GENERAR NUEVA CANTIDAD")
+
+                    alimentoActual = await generarNuevaCantidad(alimentoActual, caloriasCuadradas);
+
+                    console.log("Las nuevas propiedades del alimento actual son " +alimentoActual.Nombre)
+                    console.log("Las calorias " +alimentoActual.Calorias)
+                    console.log("Las proteinas " +alimentoActual.Proteinas)
+                    console.log("Los carbos " +alimentoActual.Carbohidratos)
+                    console.log("Las grasas" +alimentoActual.Grasas)
+                    
+                    arrayFinalModificado[indiceMacro][i] = alimentoActual;
+
+                   
+                 }
+                 else {
+                    console.log("Las calorias del alimento "+alimentoActual.Nombre + " " + "NOOO cubren las calorias disponibles")
+                    caloriasDisponibles = caloriasDisponibles - alimentoActual.Calorias;
+                    alimentoActual.Calorias = 0;
+                    alimentoActual.Proteinas = 0;
+                    alimentoActual.Grasas = 0;
+                    alimentoActual.Carbohidratos = 0;
+                    alimentoActual.Cantidad = 0;
+
+                    arrayFinalModificado[indiceMacro][i] = alimentoActual;
+                 }
+
+            }
+            i++;
+          
+        
+
+        }
+     
+
+
+
+    } */
 
 
     let m = 0;
@@ -1538,28 +1622,33 @@ class Servicio {
         return arrayFinalModificado;
     }
 
+
+
+
     generarNuevaCantidad = async (alimentoAModificar, caloriasACubrir) => {
-        console.log("El alimento a modificar es " + alimentoAModificar.Nombre)
-        console.log("Las calorias a cubrir son " + caloriasACubrir)
-    
-        let objetoAlimento = await this.obtenerAlimentos(alimentoAModificar.Nombre);
+ 
+        let objetoAlimento = {Calorias:0,Proteinas:0,Carbohidratos:0,Grasas:0}
+        objetoAlimento.Calorias = alimentoAModificar.Calorias / alimentoAModificar.Cantidad;
+        objetoAlimento.Carbohidratos = alimentoAModificar.Carbohidratos / alimentoAModificar.Cantidad;
+        objetoAlimento.Proteinas = alimentoAModificar.Proteinas / alimentoAModificar.Cantidad;
+        objetoAlimento.Grasas = alimentoAModificar.Grasas / alimentoAModificar.Cantidad;
+  
         let protesAPasar = 0;
         let carbosAPasar = 0;
         let grasasAPasar = 0;
         let cantidadAPasar = 0;
-
         cantidadAPasar = caloriasACubrir / objetoAlimento.Calorias;
         protesAPasar = objetoAlimento.Proteinas * cantidadAPasar;
         carbosAPasar = objetoAlimento.Carbohidratos * cantidadAPasar;
         grasasAPasar = objetoAlimento.Grasas * cantidadAPasar;
-     
+   
+    
         alimentoAModificar.Proteinas = protesAPasar;
         alimentoAModificar.Carbohidratos = carbosAPasar;
         alimentoAModificar.Grasas = grasasAPasar;
         alimentoAModificar.Cantidad = cantidadAPasar;
         alimentoAModificar.Calorias = protesAPasar*4 + carbosAPasar*4+ grasasAPasar*9;
 
-        console.log("La cantidad del alimento a modificar es de " + alimentoAModificar.Cantidad)
 
         return alimentoAModificar;
 

@@ -17,7 +17,7 @@ class Server {
 
   async start() {
     this.app.use(cors({
-    origin: 'http://localhost:5173',
+      origin: 'https://celebrated-trifle-75e3cb.netlify.app',  // Aquí la URL pública de tu sitio en Netlify
 
       credentials: true
     }));
